@@ -41,8 +41,11 @@ CMAKE_CODEBLOCKS_MAKE_ARGUMENTS:STRING=-j4
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
 
+//No help, variable specified on the command line.
+CMAKE_CXX_COMPILER:UNINITIALIZED=g++
+
 //C compiler
-CMAKE_C_COMPILER:FILEPATH=/usr/bin/cc
+CMAKE_C_COMPILER:STRING=/usr/bin/gcc
 
 //A wrapper around 'ar' adding the appropriate '--plugin' option
 // for the GCC compiler
@@ -290,6 +293,9 @@ SITE:STRING=fadi-HP-EliteBook-8560w
 
 //Value Computed by CMake
 assign2_BINARY_DIR:STATIC=/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug
+
+//Value Computed by CMake
+assign2_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
 assign2_SOURCE_DIR:STATIC=/home/fadi/work/assignments/assign2_hamming_3980

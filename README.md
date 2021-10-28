@@ -30,3 +30,6 @@ cmake --build cmake-build-debug --clean-first
 cmake --build cmake-build-debug --target docs
 cmake --build cmake-build-debug --target format
 ```
+
+
+echo "he" | ./cmake-build-debug/src/ascii_to_hamming --parity even --prefix test

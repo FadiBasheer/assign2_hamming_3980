@@ -1,6 +1,7 @@
 tests/CMakeFiles/template_test.dir/main.c.o: \
- /home/fadi/work/template/tests/main.c /usr/include/stdc-predef.h \
- /home/fadi/work/template/tests/tests.h \
+ /home/fadi/work/assignments/assign2_hamming_3980/tests/main.c \
+ /usr/include/stdc-predef.h \
+ /home/fadi/work/assignments/assign2_hamming_3980/tests/tests.h \
  /usr/local/include/cgreen/cgreen.h /usr/include/stdlib.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \

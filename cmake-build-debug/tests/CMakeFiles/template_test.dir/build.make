@@ -69,28 +69,28 @@ include tests/CMakeFiles/template_test.dir/flags.make
 tests/CMakeFiles/template_test.dir/main.c.o: tests/CMakeFiles/template_test.dir/flags.make
 tests/CMakeFiles/template_test.dir/main.c.o: ../tests/main.c
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object tests/CMakeFiles/template_test.dir/main.c.o"
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/tests && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/template_test.dir/main.c.o -c /home/fadi/work/assignments/assign2_hamming_3980/tests/main.c
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/tests && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/template_test.dir/main.c.o -c /home/fadi/work/assignments/assign2_hamming_3980/tests/main.c
 
 tests/CMakeFiles/template_test.dir/main.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/template_test.dir/main.c.i"
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/tests && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/fadi/work/assignments/assign2_hamming_3980/tests/main.c > CMakeFiles/template_test.dir/main.c.i
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/tests && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/fadi/work/assignments/assign2_hamming_3980/tests/main.c > CMakeFiles/template_test.dir/main.c.i
 
 tests/CMakeFiles/template_test.dir/main.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/template_test.dir/main.c.s"
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/tests && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/fadi/work/assignments/assign2_hamming_3980/tests/main.c -o CMakeFiles/template_test.dir/main.c.s
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/tests && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/fadi/work/assignments/assign2_hamming_3980/tests/main.c -o CMakeFiles/template_test.dir/main.c.s
 
 tests/CMakeFiles/template_test.dir/__/src/common.c.o: tests/CMakeFiles/template_test.dir/flags.make
 tests/CMakeFiles/template_test.dir/__/src/common.c.o: ../src/common.c
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object tests/CMakeFiles/template_test.dir/__/src/common.c.o"
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/tests && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/template_test.dir/__/src/common.c.o -c /home/fadi/work/assignments/assign2_hamming_3980/src/common.c
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/tests && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/template_test.dir/__/src/common.c.o -c /home/fadi/work/assignments/assign2_hamming_3980/src/common.c
 
 tests/CMakeFiles/template_test.dir/__/src/common.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/template_test.dir/__/src/common.c.i"
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/tests && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/fadi/work/assignments/assign2_hamming_3980/src/common.c > CMakeFiles/template_test.dir/__/src/common.c.i
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/tests && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/fadi/work/assignments/assign2_hamming_3980/src/common.c > CMakeFiles/template_test.dir/__/src/common.c.i
 
 tests/CMakeFiles/template_test.dir/__/src/common.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/template_test.dir/__/src/common.c.s"
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/tests && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/fadi/work/assignments/assign2_hamming_3980/src/common.c -o CMakeFiles/template_test.dir/__/src/common.c.s
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/tests && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/fadi/work/assignments/assign2_hamming_3980/src/common.c -o CMakeFiles/template_test.dir/__/src/common.c.s
 
 # Object files for target template_test
 template_test_OBJECTS = \

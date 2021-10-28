@@ -14,7 +14,7 @@ CostDataFile:
 Site: fadi-HP-EliteBook-8560w
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
-BuildName: Linux-cc
+BuildName: Linux-g++
 
 # Subprojects
 LabelsForSubprojects: 
@@ -62,7 +62,7 @@ UpdateOptions:
 UpdateType: git
 
 # Compiler info
-Compiler: 
+Compiler: g++
 CompilerVersion: 
 
 # Dynamic analysis (MemCheck)

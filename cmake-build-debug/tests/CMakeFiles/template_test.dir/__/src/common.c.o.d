@@ -1,6 +1,8 @@
 tests/CMakeFiles/template_test.dir/__/src/common.c.o: \
- /home/fadi/work/template/src/common.c /usr/include/stdc-predef.h \
- /home/fadi/work/template/tests/../include/common.h /usr/include/stdio.h \
+ /home/fadi/work/assignments/assign2_hamming_3980/src/common.c \
+ /usr/include/stdc-predef.h \
+ /home/fadi/work/assignments/assign2_hamming_3980/tests/../include/common.h \
+ /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/x86_64-linux-gnu/sys/cdefs.h \
  /usr/include/x86_64-linux-gnu/bits/wordsize.h \
