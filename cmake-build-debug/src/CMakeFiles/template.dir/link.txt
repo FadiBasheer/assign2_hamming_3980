@@ -1,0 +1,1 @@
+/usr/bin/cc -g CMakeFiles/template.dir/common.c.o -o template   -L/usr/local/lib  -Wl,-rpath,/usr/local/lib: -lm /usr/local/lib/libdc_error.so /usr/local/lib/libdc_posix.so 
