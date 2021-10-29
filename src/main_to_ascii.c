@@ -91,17 +91,22 @@ static void write_message(const char *str, const char *file_name);
 //}
 
 
-void testingHamming(uint8_t *binary, int size) {
+void testingHamming(uint8_t *binary, int hammingParity) {
     int c1 = binary[10] ^ binary[8] ^ binary[6] ^ binary[4] ^ binary[2] ^ binary[0];
     int c2 = binary[10] ^ binary[9] ^ binary[6] ^ binary[5] ^ binary[2] ^ binary[1];
     int c3 = binary[11] ^ binary[6] ^ binary[5] ^ binary[4] ^ binary[3];
     int c4 = binary[11] ^ binary[10] ^ binary[9] ^ binary[8] ^ binary[7];
     int c = (c4 * 8) + (c3 * 4) + (c2 * 2) + c1;
 
-    if (c == 0) {
+    if (c == 0 && hammingParity == 0) {
         printf("\nNo error while transmission of data\n");
-    } else {
+    } else if (c != 0 && hammingParity == 0) {
         printf("\nError on position %d", c);
+    }
+    if (c == 15 && hammingParity == 1) {
+        printf("\nNo error while transmission of data\n");
+    } else if (c != 15 && hammingParity == 1) {
+        printf("\nError on position %d", (15 - c));
     }
     printf("\n");
 }
@@ -245,6 +250,13 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
     parity = dc_setting_string_get(env, app_settings->parity);
     printf("parity: %s\n", parity);
     printf("prefix: %s\n", prefix);
+    int hammingParity;
+    if (strcmp(parity, "even") == 0) {
+        hammingParity = 0;
+    } else {
+        hammingParity = 1;
+    }
+
     write_message(parity, prefix);
 
     int fd0 = dc_open(env, err, "./program0.hamming", DC_O_RDONLY, 0);
@@ -330,8 +342,8 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
                 }
             }
             if (flag == 1) {
-                testbinary[0] = 0;
-                testingHamming(testbinary, 8);
+                testbinary[5] = 0;
+                testingHamming(testbinary, hammingParity);
             }
         }
 
