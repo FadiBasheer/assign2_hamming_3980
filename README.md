@@ -14,7 +14,7 @@ set(SOURCE_LIST [files])
 ```
 
 ```
-cmake -DCMAKE_C_COMPILER="gcc" -DCMAKE_CXX_COMPILER="g++" -S . -B cmake-build-debug
+cmake -DCMAKE_C_COMPILER="gcc" -DCMAKE_CXX_COMPILER="g++" -S . -B cmake-build-debug & cmake --build cmake-build-debug --clean-first
 ```
 or:
 
@@ -32,4 +32,6 @@ cmake --build cmake-build-debug --target format
 ```
 
 
-echo "he" | ./cmake-build-debug/src/ascii_to_hamming --parity even --prefix test
+echo "he" | ./cmake-build-debug/src/ascii_to_hamming --parity even --prefix program
+./cmake-build-debug/src/hamming_to_ascii --parity even --prefix program
+./cmake-build-debug/src/hamming_to_ascii 

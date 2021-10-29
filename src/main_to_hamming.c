@@ -77,19 +77,31 @@ static void write_message(const char *str, const char *file_name);
 //}
 
 
-void addingHam(int location, int *a, uint8_t *binary, int size) {
+void addingHam_even(int location, const int *locations, uint8_t *binary, int size) {
     int count = 0;
     for (int i = 0; i < size; i++) {
-        if (binary[a[i] - 1] == 1) {
+        if (binary[locations[i] - 1] == 1) {
             count++;
         }
-        // printf("---- %d", binary[a[i] - 1]);
+        // printf("---- %d", binary[locations[i] - 1]);
     }
     if ((count % 2) != 0) {
         binary[location - 1] = 1;
     }
 }
 
+void addingHam_odd(int location, const int *locations, uint8_t *binary, int size) {
+    int count = 0;
+    for (int i = 0; i < size; i++) {
+        if (binary[locations[i] - 1] == 1) {
+            count++;
+        }
+        // printf("---- %d", binary[locations[i] - 1]);
+    }
+    if ((count % 2) == 0) {
+        binary[location - 1] = 1;
+    }
+}
 
 static void error_reporter(const struct dc_error *err) {
     printf("\n");
@@ -98,15 +110,6 @@ static void error_reporter(const struct dc_error *err) {
     fprintf(stderr, "ERROR: %s\n", err->message);
     printf("\n");
 }
-
-
-//static void error_reporter(const struct dc_error *err) {
-//    fprintf(stderr, "ERROR: %s : %s : @ %zu : %d\n", err->file_name, err->function_name, err->line_number, 0);
-//    fprintf(stderr, "ERROR: %s\n", err->parity);
-//}
-
-
-
 
 int main(int argc, char *argv[]) {
     dc_posix_tracer tracer;
@@ -205,7 +208,6 @@ static int destroy_settings(const struct dc_posix_env *env,
     if (env->null_free) {
         *psettings = NULL;
     }
-
     return 0;
 }
 
@@ -217,6 +219,18 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
     DC_TRACE(env);
     ssize_t nread;
     int ret_val;
+    char chars[BUF_SIZE];
+    uint8_t i, j, k = 8, num;
+
+    uint8_t testbinary[12];
+    int bin = 0;
+    int one[5] = {3, 5, 7, 9, 11};
+    int tow[5] = {3, 6, 7, 10, 11};
+    int four[4] = {5, 6, 7, 12};
+    int eight[4] = {9, 10, 11, 12};
+    uint8_t byte0 = 0, byte1 = 0, byte2 = 0, byte3 = 0, byte4 = 0, byte5 = 0, byte6 = 0, byte7 = 0, byte8 = 0, byte9 = 0, byte10 = 0, byte11 = 0;
+    int looop = 0;
+
 
     app_settings = (struct application_settings *) settings;
     prefix = dc_setting_path_get(env, app_settings->prefix);
@@ -229,14 +243,6 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
     printf("parity: %s\n", parity);
     printf("prefix: %s\n", prefix);
     write_message(parity, prefix);
-
-
-    uint8_t test;
-    test = 'A';
-    printf("num: %d\n", test);
-    printf("num: %d\n", 'A');
-
-    char chars[BUF_SIZE];
 
 
 //    dc_error_init(err, NULL);
@@ -263,15 +269,8 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
 
 
     nread = (dc_read(env, err, STDIN_FILENO, chars, BUF_SIZE)) - 1;
-    printf("str_len: %zu\n", nread);
 
-
-    // size_t str_len = strlen(chars) - 1;
-
-
-    uint8_t i, j, k = 8, num;
     uint8_t binary[8 * nread];
-
     //filling binary array with zeros
     for (i = 0; i < (8 * nread); i++) {
         binary[i] = 0;
@@ -290,36 +289,34 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
 
 
 // Convert from 8 to 12
-    uint8_t testbinary[12];
     for (i = 0; i < 12; i++) {
         testbinary[i] = 0;
     }
-    int bin = 0;
-    int one[5] = {3, 5, 7, 9, 11};
-    int tow[5] = {3, 6, 7, 10, 11};
-    int four[4] = {5, 6, 7, 12};
-    int eight[4] = {9, 10, 11, 12};
+
+
+    size_t len = dc_strlen(env, prefix);
+    char pathname[12][len + 11];
+    for (i = 0; i < 12; i++) {
+        snprintf(pathname[i], len + 11, "%s%d.hamming", prefix, i);
+    }
 
     // open the files
-    int f0 = dc_open(env, err, "./program0.hamming", DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
-    int f1 = dc_open(env, err, "./program1.hamming", DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
-    int f2 = dc_open(env, err, "./program2.hamming", DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
-    int f3 = dc_open(env, err, "./program3.hamming", DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
-    int f4 = dc_open(env, err, "./program4.hamming", DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
-    int f5 = dc_open(env, err, "./program5.hamming", DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
-    int f6 = dc_open(env, err, "./program6.hamming", DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
-    int f7 = dc_open(env, err, "./program7.hamming", DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
-    int f8 = dc_open(env, err, "./program8.hamming", DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
-    int f9 = dc_open(env, err, "./program9.hamming", DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
-    int f10 = dc_open(env, err, "./program10.hamming", DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
-    int f11 = dc_open(env, err, "./program11.hamming", DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
+    int f0 = dc_open(env, err, pathname[0], DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
+    int f1 = dc_open(env, err, pathname[1], DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
+    int f2 = dc_open(env, err, pathname[2], DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
+    int f3 = dc_open(env, err, pathname[3], DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
+    int f4 = dc_open(env, err, pathname[4], DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
+    int f5 = dc_open(env, err, pathname[5], DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
+    int f6 = dc_open(env, err, pathname[6], DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
+    int f7 = dc_open(env, err, pathname[7], DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
+    int f8 = dc_open(env, err, pathname[8], DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
+    int f9 = dc_open(env, err, pathname[9], DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
+    int f10 = dc_open(env, err, pathname[10], DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
+    int f11 = dc_open(env, err, pathname[11], DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
 
     if (dc_error_has_error(err)) {
         ret_val = 1;
     }
-
-    uint8_t byte0 = 0, byte1 = 0, byte2 = 0, byte3 = 0, byte4 = 0, byte5 = 0, byte6 = 0, byte7 = 0, byte8 = 0, byte9 = 0, byte10 = 0, byte11 = 0;
-    int looop = 0;
 
 
     for (size_t ou = 1; ou <= (size_t) (8 * nread); ou += 8) {
@@ -335,10 +332,18 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
                 testbinary[i - 1] = binary[bin++];
             }
         }
-        addingHam(1, one, testbinary, 5);
-        addingHam(2, tow, testbinary, 5);
-        addingHam(4, four, testbinary, 4);
-        addingHam(8, eight, testbinary, 4);
+        if (strcmp(parity, "even") == 0) {
+            addingHam_even(1, one, testbinary, 5);
+            addingHam_even(2, tow, testbinary, 5);
+            addingHam_even(4, four, testbinary, 4);
+            addingHam_even(8, eight, testbinary, 4);
+        } else {
+            addingHam_odd(1, one, testbinary, 5);
+            addingHam_odd(2, tow, testbinary, 5);
+            addingHam_odd(4, four, testbinary, 4);
+            addingHam_odd(8, eight, testbinary, 4);
+        }
+
 
         printf("\n");
 
@@ -435,7 +440,6 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
         for (int l = 7; l >= 0; --l) { printf("%d", (byte10 >> l) & 0x01); }
         printf(" ");
         for (int l = 7; l >= 0; --l) { printf("%d", (byte11 >> l) & 0x01); }
-
 
     }
 
