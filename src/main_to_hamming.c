@@ -77,6 +77,26 @@ static void write_message(const char *str, const char *file_name);
 //}
 
 
+
+static void addingHam(uint8_t *binary, int parity) {
+    int c1 = binary[10] + binary[8] + binary[6] + binary[4] + binary[2];
+    if ((((c1 % 2) != 0) && (parity == 0)) || (((c1 % 2) == 0) && (parity == 1))) {
+        binary[0] = 1;
+    }
+    int c2 = binary[10] + binary[9] + binary[6] + binary[5] + binary[2];
+    if ((((c2 % 2) != 0) && (parity == 0)) || (((c2 % 2) == 0) && (parity == 1))) {
+        binary[1] = 1;
+    }
+    int c3 = binary[11] + binary[6] + binary[5] + binary[4];
+    if ((((c3 % 2) != 0) && (parity == 0)) || (((c3 % 2) == 0) && (parity == 1))) {
+        binary[3] = 1;
+    }
+    int c4 = binary[11] + binary[10] + binary[9] + binary[8];
+    if ((((c4 % 2) != 0) && (parity == 0)) || (((c4 % 2) == 0) && (parity == 1))) {
+        binary[7] = 1;
+    }
+}
+
 void addingHam_even(int location, const int *locations, uint8_t *binary, int size) {
     int count = 0;
     for (int i = 0; i < size; i++) {
@@ -92,6 +112,7 @@ void addingHam_even(int location, const int *locations, uint8_t *binary, int siz
 
 void addingHam_odd(int location, const int *locations, uint8_t *binary, int size) {
     int count = 0;
+
     for (int i = 0; i < size; i++) {
         if (binary[locations[i] - 1] == 1) {
             count++;
@@ -240,6 +261,18 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
         usage(EXIT_FAILURE);
     }
     parity = dc_setting_string_get(env, app_settings->parity);
+    if (strcmp(parity, "even") != 0 && strcmp(parity, "odd") != 0) {
+        printf("The parity bit should be odd or even\n");
+        usage(EXIT_FAILURE);
+    }
+
+    int hammingParity;
+    if (strcmp(parity, "even") == 0) {
+        hammingParity = 0;
+    } else {
+        hammingParity = 1;
+    }
+
     printf("parity: %s\n", parity);
     printf("prefix: %s\n", prefix);
     write_message(parity, prefix);
@@ -320,7 +353,8 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
 
 
     for (size_t ou = 1; ou <= (size_t) (8 * nread); ou += 8) {
-        //convert 8 to 12
+
+        //convert to 12
         for (i = 1; i <= 12; i++) {
             double rem = remainder(log(i), log(2));
             double newRem;
@@ -333,17 +367,18 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
                 testbinary[i - 1] = binary[bin++];
             }
         }
-        if (strcmp(parity, "even") == 0) {
-            addingHam_even(1, one, testbinary, 5);
-            addingHam_even(2, tow, testbinary, 5);
-            addingHam_even(4, four, testbinary, 4);
-            addingHam_even(8, eight, testbinary, 4);
-        } else {
-            addingHam_odd(1, one, testbinary, 5);
-            addingHam_odd(2, tow, testbinary, 5);
-            addingHam_odd(4, four, testbinary, 4);
-            addingHam_odd(8, eight, testbinary, 4);
-        }
+        addingHam(testbinary, hammingParity);
+//        if (strcmp(parity, "even") == 0) {
+//            addingHam_even(1, one, testbinary, 5);
+//            addingHam_even(2, tow, testbinary, 5);
+//            addingHam_even(4, four, testbinary, 4);
+//            addingHam_even(8, eight, testbinary, 4);
+//        } else {
+//            addingHam_odd(1, one, testbinary, 5);
+//            addingHam_odd(2, tow, testbinary, 5);
+//            addingHam_odd(4, four, testbinary, 4);
+//            addingHam_odd(8, eight, testbinary, 4);
+//        }
 
 
         printf("\n");
@@ -375,45 +410,45 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
         looop++;
 
         //shifting by one
-        byte0 = (uint8_t) (byte0 << 1);
-        byte1 = (uint8_t) (byte1 << 1);
-        byte2 = (uint8_t) (byte2 << 1);
-        byte3 = (uint8_t) (byte3 << 1);
-        byte4 = (uint8_t) (byte4 << 1);
-        byte5 = (uint8_t) (byte5 << 1);
-        byte6 = (uint8_t) (byte6 << 1);
-        byte7 = (uint8_t) (byte7 << 1);
-        byte8 = (uint8_t) (byte8 << 1);
-        byte9 = (uint8_t) (byte9 << 1);
-        byte10 = (uint8_t) (byte10 << 1);
-        byte11 = (uint8_t) (byte11 << 1);
+//        byte0 = (uint8_t) (byte0 << 1);
+//        byte1 = (uint8_t) (byte1 << 1);
+//        byte2 = (uint8_t) (byte2 << 1);
+//        byte3 = (uint8_t) (byte3 << 1);
+//        byte4 = (uint8_t) (byte4 << 1);
+//        byte5 = (uint8_t) (byte5 << 1);
+//        byte6 = (uint8_t) (byte6 << 1);
+//        byte7 = (uint8_t) (byte7 << 1);
+//        byte8 = (uint8_t) (byte8 << 1);
+//        byte9 = (uint8_t) (byte9 << 1);
+//        byte10 = (uint8_t) (byte10 << 1);
+//        byte11 = (uint8_t) (byte11 << 1);
+//
+//        printf("bit0: %d", (testbinary[0] >> 0) & 0x01);
+//        printf("  bit1: %d", (testbinary[1] >> 0) & 0x01);
+//        printf("  bit2: %d", (testbinary[2] >> 0) & 0x01);
+//        printf("  bit3: %d", (testbinary[3] >> 0) & 0x01);
+//        printf("  bit4: %d", (testbinary[4] >> 0) & 0x01);
+//        printf("  bit5: %d", (testbinary[5] >> 0) & 0x01);
+//        printf("  bit6: %d", (testbinary[6] >> 0) & 0x01);
+//        printf("  bit7: %d", (testbinary[7] >> 0) & 0x01);
+//        printf("  bit8: %d", (testbinary[8] >> 0) & 0x01);
+//        printf("  bit9: %d", (testbinary[9] >> 0) & 0x01);
+//        printf("  bit10: %d", (testbinary[10] >> 0) & 0x01);
+//        printf("  bit11: %d\n", (testbinary[11] >> 0) & 0x01);
 
-        printf("bit0: %d", (testbinary[0] >> 0) & 0x01);
-        printf("  bit1: %d", (testbinary[1] >> 0) & 0x01);
-        printf("  bit2: %d", (testbinary[2] >> 0) & 0x01);
-        printf("  bit3: %d", (testbinary[3] >> 0) & 0x01);
-        printf("  bit4: %d", (testbinary[4] >> 0) & 0x01);
-        printf("  bit5: %d", (testbinary[5] >> 0) & 0x01);
-        printf("  bit6: %d", (testbinary[6] >> 0) & 0x01);
-        printf("  bit7: %d", (testbinary[7] >> 0) & 0x01);
-        printf("  bit8: %d", (testbinary[8] >> 0) & 0x01);
-        printf("  bit9: %d", (testbinary[9] >> 0) & 0x01);
-        printf("  bit10: %d", (testbinary[10] >> 0) & 0x01);
-        printf("  bit11: %d\n", (testbinary[11] >> 0) & 0x01);
-
-        //adding the first bit
-        byte0 = (uint8_t) (byte0 | (testbinary[0] >> 0));
-        byte1 = (uint8_t) (byte1 | (testbinary[1] >> 0));
-        byte2 = (uint8_t) (byte2 | (testbinary[2] >> 0));
-        byte3 = (uint8_t) (byte3 | (testbinary[3] >> 0));
-        byte4 = (uint8_t) (byte4 | (testbinary[4] >> 0));
-        byte5 = (uint8_t) (byte5 | (testbinary[5] >> 0));
-        byte6 = (uint8_t) (byte6 | (testbinary[6] >> 0));
-        byte7 = (uint8_t) (byte7 | (testbinary[7] >> 0));
-        byte8 = (uint8_t) (byte8 | (testbinary[8] >> 0));
-        byte9 = (uint8_t) (byte9 | (testbinary[9] >> 0));
-        byte10 = (uint8_t) (byte10 | (testbinary[10] >> 0));
-        byte11 = (uint8_t) (byte11 | (testbinary[11] >> 0));
+        //shifting by one and adding the first bit
+        byte0 = (uint8_t) ((byte0 << 1) | (testbinary[0] >> 0));
+        byte1 = (uint8_t) ((byte1 << 1) | (testbinary[1] >> 0));
+        byte2 = (uint8_t) ((byte2 << 1) | (testbinary[2] >> 0));
+        byte3 = (uint8_t) ((byte3 << 1) | (testbinary[3] >> 0));
+        byte4 = (uint8_t) ((byte4 << 1) | (testbinary[4] >> 0));
+        byte5 = (uint8_t) ((byte5 << 1) | (testbinary[5] >> 0));
+        byte6 = (uint8_t) ((byte6 << 1) | (testbinary[6] >> 0));
+        byte7 = (uint8_t) ((byte7 << 1) | (testbinary[7] >> 0));
+        byte8 = (uint8_t) ((byte8 << 1) | (testbinary[8] >> 0));
+        byte9 = (uint8_t) ((byte9 << 1) | (testbinary[9] >> 0));
+        byte10 = (uint8_t) ((byte10 << 1) | (testbinary[10] >> 0));
+        byte11 = (uint8_t) ((byte11 << 1) | (testbinary[11] >> 0));
 
 
 
