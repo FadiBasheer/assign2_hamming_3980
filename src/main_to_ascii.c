@@ -48,28 +48,9 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
 
 static void error_reporter(const struct dc_error *err);
 
-static int open_out(const struct dc_posix_env *env, struct dc_error *err, struct dc_setting_path *setting);
-
-static void trace_reporter(const struct dc_posix_env *env,
-                           const char *file_name,
-                           const char *function_name,
-                           size_t line_number);
-
 static void usage(int exit_code);
 
 static void write_message(const char *str, const char *file_name);
-
-
-//void print_binary(int *binary, int str_len) {
-//    printf("\n\nBinary Converter: \n");
-//    for (int i = 1; i <= 8 * str_len; i++) {
-//        printf("%d", binary[i - 1]);
-//        if (i % 8 == 0) {
-//            printf(" ");
-//        }
-//    }
-//}
-
 
 static void testingHamming(uint8_t *binary, int hammingParity) {
     int c1 = binary[10] ^ binary[8] ^ binary[6] ^ binary[4] ^ binary[2] ^ binary[0];
@@ -79,13 +60,15 @@ static void testingHamming(uint8_t *binary, int hammingParity) {
     int c = (c4 * 8) + (c3 * 4) + (c2 * 2) + c1;
 
     if (c == 0 && hammingParity == 0) {
-       // printf("\nNo error while transmission of data\n");
-    } else if (c != 0 && hammingParity == 0) {
+        // printf("\nNo error while transmission of data\n");
+    }
+    if (c != 0 && hammingParity == 0) {
         //printf("\nError on position %d", c);
     }
     if (c == 15 && hammingParity == 1) {
         // printf("\nNo error while transmission of data\n");
-    } else if (c != 15 && hammingParity == 1) {
+    }
+    if (c != 15 && hammingParity == 1) {
         //printf("\nError on position %d", (15 - c));
         binary[14 - c] ^= 1;
     }
@@ -109,7 +92,6 @@ int main(int argc, char *argv[]) {
     int ret_val;
 
     reporter = error_reporter;
-    tracer = trace_reporter;
     tracer = NULL;
     dc_error_init(&err, reporter);
     dc_posix_env_init(&env, tracer);
@@ -124,7 +106,6 @@ int main(int argc, char *argv[]) {
 }
 
 static struct dc_application_settings *create_settings(const struct dc_posix_env *env, struct dc_error *err) {
-    static bool default_verbose = false;
     struct application_settings *settings;
 
     DC_TRACE(env);
@@ -207,9 +188,7 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
     const char *prefix;
     const char *parity;
     DC_TRACE(env);
-    ssize_t nread;
     int ret_val = 0;
-    char chars[BUF_SIZE];
     uint8_t testbinary[12];
     uint8_t byte0 = 0, byte1 = 0, byte2 = 0, byte3 = 0, byte4 = 0, byte5 = 0, byte6 = 0, byte7 = 0, byte8 = 0, byte9 = 0, byte10 = 0, byte11 = 0;
 
@@ -252,7 +231,7 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
 
 
     if (dc_error_has_no_error(err)) {
-        while ((nread = dc_read(env, err, fd0, &byte0, 1)) > 0) {
+        while ((dc_read(env, err, fd0, &byte0, 1)) > 0) {
             dc_read(env, err, fd1, &byte1, 1);
             dc_read(env, err, fd2, &byte2, 1);
             dc_read(env, err, fd3, &byte3, 1);
@@ -355,10 +334,8 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
 //                    bin = ((ch << i) & 0x80) ? 1 : 0;
 //                    printf("%d", bin);
 //                }
-//
-//                printf("\n");
+
                     printf("%c", ch);
-                    // printf("\n");
                 }
             }
 
@@ -396,14 +373,6 @@ static void write_message(const char *str, const char *file_name) {
 static void usage(int exit_code) {
     fprintf(stderr, "Usage: --parity <string> --prefix <path-to-output-prefix>");
     exit(exit_code);
-}
-
-
-static void trace_reporter(__attribute__((unused)) const struct dc_posix_env *env,
-                           const char *file_name,
-                           const char *function_name,
-                           size_t line_number) {
-    fprintf(stdout, "TRACE: %s : %s : @ %zu\n", file_name, function_name, line_number);
 }
 
 
