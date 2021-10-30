@@ -1,0 +1,36 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/fadi/work/assignments/assign2_hamming_3980/src/main_to_ascii.c
+stdlib.h
+-
+stdio.h
+-
+string.h
+-
+dc_posix/dc_fcntl.h
+-
+dc_posix/dc_unistd.h
+-
+bits/stdint-uintn.h
+-
+dc_application/command_line.h
+-
+dc_application/config.h
+-
+dc_application/options.h
+-
+dc_posix/dc_stdlib.h
+-
+dc_posix/dc_string.h
+-
+dc_posix/dc_posix_env.h
+-
+getopt.h
+-
+

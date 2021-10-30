@@ -97,32 +97,48 @@ static void addingHam(uint8_t *binary, int parity) {
     }
 }
 
-void addingHam_even(int location, const int *locations, uint8_t *binary, int size) {
-    int count = 0;
-    for (int i = 0; i < size; i++) {
-        if (binary[locations[i] - 1] == 1) {
-            count++;
+static void convert_eight_to_twelve(uint8_t *testbinary, const uint8_t *binary, int *bin) {
+
+    for (int i = 1; i <= 12; i++) {
+        double rem = remainder(log(i), log(2));
+        double newRem;
+        if (rem < 0) { newRem = -(rem); }
+        else { newRem = rem; }
+
+        if (newRem < 0.0000001) {
+            testbinary[i - 1] = 0;
+        } else {
+            testbinary[i - 1] = binary[(*bin)++];
         }
-        // printf("---- %d", binary[locations[i] - 1]);
-    }
-    if ((count % 2) != 0) {
-        binary[location - 1] = 1;
     }
 }
 
-void addingHam_odd(int location, const int *locations, uint8_t *binary, int size) {
-    int count = 0;
+//void addingHam_even(int location, const int *locations, uint8_t *binary, int size) {
+//    int count = 0;
+//    for (int i = 0; i < size; i++) {
+//        if (binary[locations[i] - 1] == 1) {
+//            count++;
+//        }
+//        // printf("---- %d", binary[locations[i] - 1]);
+//    }
+//    if ((count % 2) != 0) {
+//        binary[location - 1] = 1;
+//    }
+//}
 
-    for (int i = 0; i < size; i++) {
-        if (binary[locations[i] - 1] == 1) {
-            count++;
-        }
-        // printf("---- %d", binary[locations[i] - 1]);
-    }
-    if ((count % 2) == 0) {
-        binary[location - 1] = 1;
-    }
-}
+//void addingHam_odd(int location, const int *locations, uint8_t *binary, int size) {
+//    int count = 0;
+//
+//    for (int i = 0; i < size; i++) {
+//        if (binary[locations[i] - 1] == 1) {
+//            count++;
+//        }
+//        // printf("---- %d", binary[locations[i] - 1]);
+//    }
+//    if ((count % 2) == 0) {
+//        binary[location - 1] = 1;
+//    }
+//}
 
 static void error_reporter(const struct dc_error *err) {
     printf("\n");
@@ -240,15 +256,10 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
     DC_TRACE(env);
     ssize_t nread;
     int ret_val;
+    int bin = 0;
     char chars[BUF_SIZE];
     uint8_t i, j, k = 8, num;
-
     uint8_t testbinary[12];
-    int bin = 0;
-    int one[5] = {3, 5, 7, 9, 11};
-    int tow[5] = {3, 6, 7, 10, 11};
-    int four[4] = {5, 6, 7, 12};
-    int eight[4] = {9, 10, 11, 12};
     uint8_t byte0 = 0, byte1 = 0, byte2 = 0, byte3 = 0, byte4 = 0, byte5 = 0, byte6 = 0, byte7 = 0, byte8 = 0, byte9 = 0, byte10 = 0, byte11 = 0;
     int looop = 0;
 
@@ -355,18 +366,8 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
     for (size_t ou = 1; ou <= (size_t) (8 * nread); ou += 8) {
 
         //convert to 12
-        for (i = 1; i <= 12; i++) {
-            double rem = remainder(log(i), log(2));
-            double newRem;
-            if (rem < 0) { newRem = -(rem); }
-            else { newRem = rem; }
+        convert_eight_to_twelve(testbinary, binary, &bin);
 
-            if (newRem < 0.0000001) {
-                testbinary[i - 1] = 0;
-            } else {
-                testbinary[i - 1] = binary[bin++];
-            }
-        }
         addingHam(testbinary, hammingParity);
 //        if (strcmp(parity, "even") == 0) {
 //            addingHam_even(1, one, testbinary, 5);
