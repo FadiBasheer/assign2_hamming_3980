@@ -91,7 +91,7 @@ static void write_message(const char *str, const char *file_name);
 //}
 
 
-void testingHamming(uint8_t *binary, int hammingParity) {
+static void testingHamming(uint8_t *binary, int hammingParity) {
     int c1 = binary[10] ^ binary[8] ^ binary[6] ^ binary[4] ^ binary[2] ^ binary[0];
     int c2 = binary[10] ^ binary[9] ^ binary[6] ^ binary[5] ^ binary[2] ^ binary[1];
     int c3 = binary[11] ^ binary[6] ^ binary[5] ^ binary[4] ^ binary[3];
@@ -104,11 +104,12 @@ void testingHamming(uint8_t *binary, int hammingParity) {
         printf("\nError on position %d", c);
     }
     if (c == 15 && hammingParity == 1) {
-        printf("\nNo error while transmission of data\n");
+        // printf("\nNo error while transmission of data\n");
     } else if (c != 15 && hammingParity == 1) {
-        printf("\nError on position %d", (15 - c));
+        //printf("\nError on position %d", (15 - c));
+        binary[14 - c] ^= 1;
     }
-    printf("\n");
+    //printf("\n");
 }
 
 static void error_reporter(const struct dc_error *err) {
@@ -230,13 +231,7 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
     int ret_val = 0;
     char chars[BUF_SIZE];
     uint8_t i, j, k = 8, num;
-
     uint8_t testbinary[12];
-    int bin = 0;
-    int one[5] = {3, 5, 7, 9, 11};
-    int tow[5] = {3, 6, 7, 10, 11};
-    int four[4] = {5, 6, 7, 12};
-    int eight[4] = {9, 10, 11, 12};
     uint8_t byte0 = 0, byte1 = 0, byte2 = 0, byte3 = 0, byte4 = 0, byte5 = 0, byte6 = 0, byte7 = 0, byte8 = 0, byte9 = 0, byte10 = 0, byte11 = 0;
     int looop = 0;
 
@@ -291,20 +286,25 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
             ret_val = 1;
         }
         //for test
-//        printf("bit0: %d\n", (byte0));
-//        printf("  bit1: %d\n", (byte1));
-//        printf("  bit2: %d\n", (byte2));
-//        printf("  bit3: %d\n", (byte3));
-//        printf("  bit4: %d\n", (byte4));
-//        printf("  bit5: %d\n", (byte5));
-//        printf("  bit6: %d\n", (byte6));
-//        printf("  bit7: %d\n", (byte7));
-//        printf("  bit8: %d\n", (byte8));
-//        printf("  bit9: %d\n", (byte9));
-//        printf("  bit10: %d\n", (byte10));
-//        printf("  bit11: %d\n", (byte11));
+        /*
+        printf("bit0: %d\n", (byte0));
+        printf("  bit1: %d\n", (byte1));
+        printf("  bit2: %d\n", (byte2));
+        printf("  bit3: %d\n", (byte3));
+        printf("  bit4: %d\n", (byte4));
+        printf("  bit5: %d\n", (byte5));
+        printf("  bit6: %d\n", (byte6));
+        printf("  bit7: %d\n", (byte7));
+        printf("  bit8: %d\n", (byte8));
+        printf("  bit9: %d\n", (byte9));
+        printf("  bit10: %d\n", (byte10));
+        printf("  bit11: %d\n", (byte11));
         uint8_t temp0, temp1, temp2, temp3, temp4, temp5, temp6, temp7, temp8, temp9, temp10, temp11 = 0;
+        */
+
+        //printf("\n");
         for (size_t whichBit = 8; whichBit >= 1; whichBit--) {
+            /*
             printf("bit0: %d", (byte0 & (1 << (whichBit - 1))));
             printf("  bit1: %d", (byte1 & (1 << (whichBit - 1))));
             printf("  bit2: %d", (byte2 & (1 << (whichBit - 1))));
@@ -317,7 +317,7 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
             printf("  bit9: %d", (byte9 & (1 << (whichBit - 1))));
             printf("  bit10: %d", (byte10 & (1 << (whichBit - 1))));
             printf("  bit11: %d\n", (byte11 & (1 << (whichBit - 1))));
-
+*/
 
             testbinary[0] = (byte0 & (1 << (whichBit - 1))) >> (whichBit - 1);
             testbinary[1] = (byte1 & (1 << (whichBit - 1))) >> (whichBit - 1);
@@ -337,13 +337,45 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
             for (int l = 0; l < 12; ++l) {
                 if (testbinary[l] == 1) {
                     flag = 1;
-                    printf("break\n");
                     break;
                 }
             }
+
             if (flag == 1) {
-                testbinary[5] = 0;
+                testbinary[1] = 1;
+
+//                printf("before correction\n");
+//                for (int l = 0; l < 12; ++l) {
+//                    printf("%d", testbinary[l]);
+//                }
+//                printf("\n");
+
                 testingHamming(testbinary, hammingParity);
+
+//                printf("after correction\n");
+//                for (int l = 0; l < 12; ++l) {
+//                    printf("%d", testbinary[l]);
+//                }
+
+                char ch;
+                for (int l = 2; l < 12; ++l) {
+                    if (l != 3 && l != 7) {
+                        ch = (char) (ch << 1);
+                        ch = ((char) (ch | (testbinary[l] >> 0)));
+                    }
+                }
+
+//                printf("\n");
+//                printf("ch's binary value: ");
+//                int bin;
+//                for (i = 0; i < 8; i++) {
+//                    bin = ((ch << i) & 0x80) ? 1 : 0;
+//                    printf("%d", bin);
+//                }
+//
+//                printf("\n");
+                printf("%c", ch);
+                // printf("\n");
             }
         }
 
@@ -351,8 +383,7 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
             ret_val = 2;
         }
     }
-
-
+    printf("\n");
     dc_dc_close(env, err, fd0);
     dc_dc_close(env, err, fd1);
     dc_dc_close(env, err, fd2);

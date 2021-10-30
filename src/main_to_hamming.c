@@ -279,7 +279,7 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
     //converting each char and filling the binary array
     for (i = 0; i < nread; i++) {
         j = k - 1;
-        num = chars[i];
+        num = (uint8_t) chars[i];
         while (num != 0) {
             binary[j--] = num % 2;
             num /= 2;
@@ -288,7 +288,7 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
     }
 
 
-// Convert from 8 to 12
+// Filling array of 12 with zeros
     for (i = 0; i < 12; i++) {
         testbinary[i] = 0;
     }
@@ -320,6 +320,7 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
 
 
     for (size_t ou = 1; ou <= (size_t) (8 * nread); ou += 8) {
+        //convert 8 to 12
         for (i = 1; i <= 12; i++) {
             double rem = remainder(log(i), log(2));
             double newRem;
