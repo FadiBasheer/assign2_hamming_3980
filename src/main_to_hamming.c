@@ -1,19 +1,4 @@
-/*
- * This prefix is part of dc_dump.
- *
- *  dc_dump is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  Foobar is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with dc_dump.  If not, see <https://www.gnu.org/licenses/>.
- */
+/*Fadi Basheer*/
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -50,17 +35,17 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
 
 static void error_reporter(const struct dc_error *err);
 
-
-static void trace_reporter(const struct dc_posix_env *env,
-                           const char *file_name,
-                           const char *function_name,
-                           size_t line_number);
-
 static void usage(int exit_code);
 
-//static void write_message(const char *str, const char *file_name);
+static void write_message(const char *parity, const char *file_name);
 
-
+/**
+ * Convert char to binary
+ * @param binary
+ * @param nread
+ * @param chars
+ * @param k
+ */
 static void convert_to_binary(uint8_t *binary, ssize_t nread, const char *chars, uint8_t *k) {
     uint8_t i, j, num;
     for (i = 0; i < (uint8_t) nread; i++) {
@@ -74,7 +59,11 @@ static void convert_to_binary(uint8_t *binary, ssize_t nread, const char *chars,
     }
 }
 
-
+/**
+ * Adding hamming code
+ * @param binary
+ * @param parity
+ */
 static void addingHam(uint8_t *binary, int parity) {
     int c1 = binary[10] + binary[8] + binary[6] + binary[4] + binary[2];
     if ((((c1 % 2) != 0) && (parity == 0)) || (((c1 % 2) == 0) && (parity == 1))) {
@@ -94,8 +83,13 @@ static void addingHam(uint8_t *binary, int parity) {
     }
 }
 
-static void convert_eight_to_twelve(uint8_t *testbinary, const uint8_t *binary, int *bin) {
-
+/**
+ * Convert from array 0f 8 to array of 12
+ * @param binary_with_hamming
+ * @param binary
+ * @param bin
+ */
+static void convert_eight_to_twelve(uint8_t *binary_with_hamming, const uint8_t *binary, int *bin) {
     for (int i = 1; i <= 12; i++) {
         double rem = remainder(log(i), log(2));
         double newRem;
@@ -103,13 +97,17 @@ static void convert_eight_to_twelve(uint8_t *testbinary, const uint8_t *binary, 
         else { newRem = rem; }
 
         if (newRem < 0.0000001) {
-            testbinary[i - 1] = 0;
+            binary_with_hamming[i - 1] = 0;
         } else {
-            testbinary[i - 1] = binary[(*bin)++];
+            binary_with_hamming[i - 1] = binary[(*bin)++];
         }
     }
 }
 
+/**
+ * report errors
+ * @param err
+ */
 static void error_reporter(const struct dc_error *err) {
     printf("\n");
     fprintf(stderr, "ERROR: %s : %s : @ %zu : %d\n", err->file_name, err->function_name, err->line_number,
@@ -118,6 +116,12 @@ static void error_reporter(const struct dc_error *err) {
     printf("\n");
 }
 
+/**
+ * main function
+ * @param argc
+ * @param argv
+ * @return
+ */
 int main(int argc, char *argv[]) {
     dc_posix_tracer tracer;
     dc_error_reporter reporter;
@@ -153,7 +157,6 @@ static struct dc_application_settings *create_settings(const struct dc_posix_env
     settings->parity = dc_setting_string_create(env, err);
     settings->prefix = dc_setting_path_create(env, err);
 
-
     struct options opts[] = {
             {(struct dc_setting *) settings->opts.parent.config_path,
                     dc_options_set_path,
@@ -187,7 +190,6 @@ static struct dc_application_settings *create_settings(const struct dc_posix_env
                     NULL},
     };
 
-    // note the trick here - we use calloc and add 1 to ensure the last line is all 0/NULL
     settings->opts.opts_count = (sizeof(opts) / sizeof(struct options)) + 1;
     settings->opts.opts_size = sizeof(struct options);
     settings->opts.opts = dc_calloc(env, err, settings->opts.opts_count, settings->opts.opts_size);
@@ -198,6 +200,13 @@ static struct dc_application_settings *create_settings(const struct dc_posix_env
     return (struct dc_application_settings *) settings;
 }
 
+/**
+ * destroy settings
+ * @param env
+ * @param err
+ * @param psettings
+ * @return
+ */
 static int destroy_settings(const struct dc_posix_env *env,
                             __attribute__((unused)) struct dc_error *err,
                             struct dc_application_settings **psettings) {
@@ -227,7 +236,7 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
     int bin = 0;
     char chars[BUF_SIZE];
     uint8_t i, k = 8;
-    uint8_t testbinary[12];
+    uint8_t binary_with_hamming[12];
     uint8_t byte0 = 0, byte1 = 0, byte2 = 0, byte3 = 0, byte4 = 0, byte5 = 0, byte6 = 0, byte7 = 0, byte8 = 0, byte9 = 0, byte10 = 0, byte11 = 0;
     int looop = 0;
 
@@ -251,9 +260,7 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
         hammingParity = 1;
     }
 
-    printf("parity: %s\n", parity);
-    printf("prefix: %s\n", prefix);
-    // write_message(parity, prefix);
+    write_message(parity, prefix);
 
     nread = (dc_read(env, err, STDIN_FILENO, chars, BUF_SIZE)) - 1;
 
@@ -269,10 +276,10 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
 
     // Filling array of 12 with zeros
     for (i = 0; i < 12; i++) {
-        testbinary[i] = 0;
+        binary_with_hamming[i] = 0;
     }
 
-
+    //Generating files names
     size_t len = dc_strlen(env, prefix);
     char pathname[12][len + 11];
     for (i = 0; i < 12; i++) {
@@ -301,18 +308,10 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
     for (size_t ou = 1; ou <= (size_t) (8 * nread); ou += 8) {
 
         //convert 8 to 12
-        convert_eight_to_twelve(testbinary, binary, &bin);
+        convert_eight_to_twelve(binary_with_hamming, binary, &bin);
 
         //adding hamming code
-        addingHam(testbinary, hammingParity);
-
-
-        printf("\n");
-
-        for (int p = 0; p < 12; p++) {
-            printf("%d", testbinary[p]);
-        }
-        printf("\n");
+        addingHam(binary_with_hamming, hammingParity);
 
         if (looop == 8) {
             dc_write(env, err, f0, &byte0, 1);
@@ -336,45 +335,18 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
         looop++;
 
         //shifting by one and adding the first bit
-        byte0 = (uint8_t) ((byte0 << 1) | (testbinary[0] >> 0));
-        byte1 = (uint8_t) ((byte1 << 1) | (testbinary[1] >> 0));
-        byte2 = (uint8_t) ((byte2 << 1) | (testbinary[2] >> 0));
-        byte3 = (uint8_t) ((byte3 << 1) | (testbinary[3] >> 0));
-        byte4 = (uint8_t) ((byte4 << 1) | (testbinary[4] >> 0));
-        byte5 = (uint8_t) ((byte5 << 1) | (testbinary[5] >> 0));
-        byte6 = (uint8_t) ((byte6 << 1) | (testbinary[6] >> 0));
-        byte7 = (uint8_t) ((byte7 << 1) | (testbinary[7] >> 0));
-        byte8 = (uint8_t) ((byte8 << 1) | (testbinary[8] >> 0));
-        byte9 = (uint8_t) ((byte9 << 1) | (testbinary[9] >> 0));
-        byte10 = (uint8_t) ((byte10 << 1) | (testbinary[10] >> 0));
-        byte11 = (uint8_t) ((byte11 << 1) | (testbinary[11] >> 0));
-
-
-
-        //printing the byte
-        for (int l = 7; l >= 0; --l) { printf("%d", (byte0 >> l) & 0x01); }
-        printf(" ");
-        for (int l = 7; l >= 0; --l) { printf("%d", (byte1 >> l) & 0x01); }
-        printf(" ");
-        for (int l = 7; l >= 0; --l) { printf("%d", (byte2 >> l) & 0x01); }
-        printf(" ");
-        for (int l = 7; l >= 0; --l) { printf("%d", (byte3 >> l) & 0x01); }
-        printf(" ");
-        for (int l = 7; l >= 0; --l) { printf("%d", (byte4 >> l) & 0x01); }
-        printf(" ");
-        for (int l = 7; l >= 0; --l) { printf("%d", (byte5 >> l) & 0x01); }
-        printf(" ");
-        for (int l = 7; l >= 0; --l) { printf("%d", (byte6 >> l) & 0x01); }
-        printf(" ");
-        for (int l = 7; l >= 0; --l) { printf("%d", (byte7 >> l) & 0x01); }
-        printf(" ");
-        for (int l = 7; l >= 0; --l) { printf("%d", (byte8 >> l) & 0x01); }
-        printf(" ");
-        for (int l = 7; l >= 0; --l) { printf("%d", (byte9 >> l) & 0x01); }
-        printf(" ");
-        for (int l = 7; l >= 0; --l) { printf("%d", (byte10 >> l) & 0x01); }
-        printf(" ");
-        for (int l = 7; l >= 0; --l) { printf("%d", (byte11 >> l) & 0x01); }
+        byte0 = (uint8_t) ((byte0 << 1) | (binary_with_hamming[0] >> 0));
+        byte1 = (uint8_t) ((byte1 << 1) | (binary_with_hamming[1] >> 0));
+        byte2 = (uint8_t) ((byte2 << 1) | (binary_with_hamming[2] >> 0));
+        byte3 = (uint8_t) ((byte3 << 1) | (binary_with_hamming[3] >> 0));
+        byte4 = (uint8_t) ((byte4 << 1) | (binary_with_hamming[4] >> 0));
+        byte5 = (uint8_t) ((byte5 << 1) | (binary_with_hamming[5] >> 0));
+        byte6 = (uint8_t) ((byte6 << 1) | (binary_with_hamming[6] >> 0));
+        byte7 = (uint8_t) ((byte7 << 1) | (binary_with_hamming[7] >> 0));
+        byte8 = (uint8_t) ((byte8 << 1) | (binary_with_hamming[8] >> 0));
+        byte9 = (uint8_t) ((byte9 << 1) | (binary_with_hamming[9] >> 0));
+        byte10 = (uint8_t) ((byte10 << 1) | (binary_with_hamming[10] >> 0));
+        byte11 = (uint8_t) ((byte11 << 1) | (binary_with_hamming[11] >> 0));
 
     }
 
@@ -408,26 +380,23 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
     dc_dc_close(env, err, f11);
 
     error_reporter(err);
-
-    printf("\n");
-
     return ret_val;
 }
 
-//static void write_message(const char *str, const char *file_name) {
-//    //printf("writng  %s to %s\n", str, file_name);
-//    printf("heloooooooooooooooooooooooooooooo %s\n", str);
-//}
-//
+/**
+ * writing a message
+ * @param parity
+ * @param file_name
+ */
+static void write_message(const char *parity, const char *file_name) {
+    printf("You chose (%s) parity bit, and the prefix for files is: %s\n", parity, file_name);
+}
+
+/**
+ *
+ * @param exit_code
+ */
 static void usage(int exit_code) {
     fprintf(stderr, "Usage: --parity <string> --prefix <path-to-output-prefix>");
     exit(1);
-}
-
-
-static void trace_reporter(__attribute__((unused)) const struct dc_posix_env *env,
-                           const char *file_name,
-                           const char *function_name,
-                           size_t line_number) {
-    fprintf(stdout, "TRACE: %s : %s : @ %zu\n", file_name, function_name, line_number);
 }

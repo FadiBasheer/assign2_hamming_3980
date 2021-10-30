@@ -1,19 +1,4 @@
-/*
- * This prefix is part of dc_dump.
- *
- *  dc_dump is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  Foobar is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with dc_dump.  If not, see <https://www.gnu.org/licenses/>.
- */
+/*Fadi Basheer*/
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -50,8 +35,13 @@ static void error_reporter(const struct dc_error *err);
 
 static void usage(int exit_code);
 
-static void write_message(const char *str, const char *file_name);
+static void write_message(const char *parity, const char *file_name);
 
+/**
+ * Testing and correcting hamming code
+ * @param binary
+ * @param hammingParity
+ */
 static void testingHamming(uint8_t *binary, int hammingParity) {
     int c1 = binary[10] ^ binary[8] ^ binary[6] ^ binary[4] ^ binary[2] ^ binary[0];
     int c2 = binary[10] ^ binary[9] ^ binary[6] ^ binary[5] ^ binary[2] ^ binary[1];
@@ -67,6 +57,10 @@ static void testingHamming(uint8_t *binary, int hammingParity) {
     }
 }
 
+/**
+ * report errors
+ * @param err
+ */
 static void error_reporter(const struct dc_error *err) {
     printf("\n");
     fprintf(stderr, "ERROR: %s : %s : @ %zu : %d\n", err->file_name, err->function_name, err->line_number,
@@ -75,6 +69,12 @@ static void error_reporter(const struct dc_error *err) {
     printf("\n");
 }
 
+/**
+ * main function
+ * @param argc
+ * @param argv
+ * @return
+ */
 int main(int argc, char *argv[]) {
     dc_posix_tracer tracer;
     dc_error_reporter reporter;
@@ -145,7 +145,6 @@ static struct dc_application_settings *create_settings(const struct dc_posix_env
                     NULL},
     };
 
-    // note the trick here - we use calloc and add 1 to ensure the last line is all 0/NULL
     settings->opts.opts_count = (sizeof(opts) / sizeof(struct options)) + 1;
     settings->opts.opts_size = sizeof(struct options);
     settings->opts.opts = dc_calloc(env, err, settings->opts.opts_count, settings->opts.opts_size);
@@ -156,6 +155,13 @@ static struct dc_application_settings *create_settings(const struct dc_posix_env
     return (struct dc_application_settings *) settings;
 }
 
+/**
+ * destroy settings
+ * @param env
+ * @param err
+ * @param psettings
+ * @return
+ */
 static int destroy_settings(const struct dc_posix_env *env,
                             __attribute__((unused)) struct dc_error *err,
                             struct dc_application_settings **psettings) {
@@ -181,7 +187,7 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
     const char *parity;
     DC_TRACE(env);
     int ret_val = 0;
-    uint8_t testbinary[12];
+    uint8_t binary_with_hamming[12];
     uint8_t byte0 = 0, byte1 = 0, byte2 = 0, byte3 = 0, byte4 = 0, byte5 = 0, byte6 = 0, byte7 = 0, byte8 = 0, byte9 = 0, byte10 = 0, byte11 = 0;
 
     app_settings = (struct application_settings *) settings;
@@ -191,8 +197,6 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
         usage(EXIT_FAILURE);
     }
     parity = dc_setting_string_get(env, app_settings->parity);
-    printf("parity: %s\n", parity);
-    printf("prefix: %s\n", prefix);
 
     if (strcmp(parity, "even") != 0 && strcmp(parity, "odd") != 0) {
         printf("The parity bit should be odd or even\n");
@@ -208,18 +212,25 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
 
     write_message(parity, prefix);
 
-    int fd0 = dc_open(env, err, "./program0.hamming", DC_O_RDONLY, 0);
-    int fd1 = dc_open(env, err, "./program1.hamming", DC_O_RDONLY, 0);
-    int fd2 = dc_open(env, err, "./program2.hamming", DC_O_RDONLY, 0);
-    int fd3 = dc_open(env, err, "./program3.hamming", DC_O_RDONLY, 0);
-    int fd4 = dc_open(env, err, "./program4.hamming", DC_O_RDONLY, 0);
-    int fd5 = dc_open(env, err, "./program5.hamming", DC_O_RDONLY, 0);
-    int fd6 = dc_open(env, err, "./program6.hamming", DC_O_RDONLY, 0);
-    int fd7 = dc_open(env, err, "./program7.hamming", DC_O_RDONLY, 0);
-    int fd8 = dc_open(env, err, "./program8.hamming", DC_O_RDONLY, 0);
-    int fd9 = dc_open(env, err, "./program9.hamming", DC_O_RDONLY, 0);
-    int fd10 = dc_open(env, err, "./program10.hamming", DC_O_RDONLY, 0);
-    int fd11 = dc_open(env, err, "./program11.hamming", DC_O_RDONLY, 0);
+    //Generating files names
+    size_t len = dc_strlen(env, prefix);
+    char pathname[12][len + 11];
+    for (int i = 0; i < 12; i++) {
+        snprintf(pathname[i], len + 11, "%s%d.hamming", prefix, i);
+    }
+
+    int fd0 = dc_open(env, err, pathname[0], DC_O_RDONLY, 0);
+    int fd1 = dc_open(env, err, pathname[1], DC_O_RDONLY, 0);
+    int fd2 = dc_open(env, err, pathname[2], DC_O_RDONLY, 0);
+    int fd3 = dc_open(env, err, pathname[3], DC_O_RDONLY, 0);
+    int fd4 = dc_open(env, err, pathname[4], DC_O_RDONLY, 0);
+    int fd5 = dc_open(env, err, pathname[5], DC_O_RDONLY, 0);
+    int fd6 = dc_open(env, err, pathname[6], DC_O_RDONLY, 0);
+    int fd7 = dc_open(env, err, pathname[7], DC_O_RDONLY, 0);
+    int fd8 = dc_open(env, err, pathname[8], DC_O_RDONLY, 0);
+    int fd9 = dc_open(env, err, pathname[9], DC_O_RDONLY, 0);
+    int fd10 = dc_open(env, err, pathname[10], DC_O_RDONLY, 0);
+    int fd11 = dc_open(env, err, pathname[11], DC_O_RDONLY, 0);
 
 
     if (dc_error_has_no_error(err)) {
@@ -241,37 +252,38 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
             }
 
             for (size_t whichBit = 8; whichBit >= 1; whichBit--) {
-                testbinary[0] = (byte0 & (1 << (whichBit - 1))) >> (whichBit - 1);
-                testbinary[1] = (byte1 & (1 << (whichBit - 1))) >> (whichBit - 1);
-                testbinary[2] = (byte2 & (1 << (whichBit - 1))) >> (whichBit - 1);
-                testbinary[3] = (byte3 & (1 << (whichBit - 1))) >> (whichBit - 1);
-                testbinary[4] = (byte4 & (1 << (whichBit - 1))) >> (whichBit - 1);
-                testbinary[5] = (byte5 & (1 << (whichBit - 1))) >> (whichBit - 1);
-                testbinary[6] = (byte6 & (1 << (whichBit - 1))) >> (whichBit - 1);
-                testbinary[7] = (byte7 & (1 << (whichBit - 1))) >> (whichBit - 1);
-                testbinary[8] = (byte8 & (1 << (whichBit - 1))) >> (whichBit - 1);
-                testbinary[9] = (byte9 & (1 << (whichBit - 1))) >> (whichBit - 1);
-                testbinary[10] = (byte10 & (1 << (whichBit - 1))) >> (whichBit - 1);
-                testbinary[11] = (byte11 & (1 << (whichBit - 1))) >> (whichBit - 1);
+                binary_with_hamming[0] = (byte0 & (1 << (whichBit - 1))) >> (whichBit - 1);
+                binary_with_hamming[1] = (byte1 & (1 << (whichBit - 1))) >> (whichBit - 1);
+                binary_with_hamming[2] = (byte2 & (1 << (whichBit - 1))) >> (whichBit - 1);
+                binary_with_hamming[3] = (byte3 & (1 << (whichBit - 1))) >> (whichBit - 1);
+                binary_with_hamming[4] = (byte4 & (1 << (whichBit - 1))) >> (whichBit - 1);
+                binary_with_hamming[5] = (byte5 & (1 << (whichBit - 1))) >> (whichBit - 1);
+                binary_with_hamming[6] = (byte6 & (1 << (whichBit - 1))) >> (whichBit - 1);
+                binary_with_hamming[7] = (byte7 & (1 << (whichBit - 1))) >> (whichBit - 1);
+                binary_with_hamming[8] = (byte8 & (1 << (whichBit - 1))) >> (whichBit - 1);
+                binary_with_hamming[9] = (byte9 & (1 << (whichBit - 1))) >> (whichBit - 1);
+                binary_with_hamming[10] = (byte10 & (1 << (whichBit - 1))) >> (whichBit - 1);
+                binary_with_hamming[11] = (byte11 & (1 << (whichBit - 1))) >> (whichBit - 1);
 
+                //check if the byte is not empty
                 int flag = 0;
                 for (int l = 0; l < 12; ++l) {
-                    if (testbinary[l] == 1) {
+                    if (binary_with_hamming[l] == 1) {
                         flag = 1;
                         break;
                     }
                 }
 
                 if (flag == 1) {
-                    testbinary[5] = 0;
 
-                    testingHamming(testbinary, hammingParity);
+                    testingHamming(binary_with_hamming, hammingParity);
 
                     char ch;
+                    //create the char
                     for (int l = 2; l < 12; ++l) {
                         if (l != 3 && l != 7) {
                             ch = (char) (ch << 1);
-                            ch = ((char) (ch | (testbinary[l] >> 0)));
+                            ch = ((char) (ch | (binary_with_hamming[l] >> 0)));
                         }
                     }
                     printf("%c", ch);
@@ -295,9 +307,15 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
     return ret_val;
 }
 
-static void write_message(const char *str, const char *file_name) {
-    //printf("writng  %s to %s\n", str, file_name);
-    printf("heloooooooooooooooooooooooooooooo %s\n", str);
+/**
+ * writing a message
+ * @param parity
+ * @param file_name
+ */
+static void write_message(const char *parity, const char *file_name) {
+    printf("\n");
+    printf("You chose (%s) parity bit, and the prefix for files is: %s\n", parity, file_name);
+    printf("Your message is: ");
 }
 
 static void usage(int exit_code) {
