@@ -5,5 +5,4 @@ src/CMakeFiles/ascii_to_hamming.dir/common.c.o: \
  ../include/common.h \
  ../src/common.c
 src/CMakeFiles/ascii_to_hamming.dir/main_to_hamming.c.o: \
- ../include/common.h \
  ../src/main_to_hamming.c

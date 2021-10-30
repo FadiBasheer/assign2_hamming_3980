@@ -15,20 +15,16 @@
  *  along with dc_dump.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "common.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
-#include <ctype.h>
 #include <math.h>
 #include <dc_posix/dc_fcntl.h>
 #include <dc_posix/dc_unistd.h>
 #include <bits/stdint-uintn.h>
 #include <dc_application/command_line.h>
 #include <dc_application/config.h>
-#include <dc_application/defaults.h>
-#include <dc_application/environment.h>
 #include <dc_application/options.h>
 #include <dc_posix/dc_stdlib.h>
 #include <dc_posix/dc_string.h>
@@ -54,7 +50,6 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
 
 static void error_reporter(const struct dc_error *err);
 
-static int open_out(const struct dc_posix_env *env, struct dc_error *err, struct dc_setting_path *setting);
 
 static void trace_reporter(const struct dc_posix_env *env,
                            const char *file_name,
@@ -63,19 +58,21 @@ static void trace_reporter(const struct dc_posix_env *env,
 
 static void usage(int exit_code);
 
-static void write_message(const char *str, const char *file_name);
+//static void write_message(const char *str, const char *file_name);
 
 
-//void print_binary(int *binary, int str_len) {
-//    printf("\n\nBinary Converter: \n");
-//    for (int i = 1; i <= 8 * str_len; i++) {
-//        printf("%d", binary[i - 1]);
-//        if (i % 8 == 0) {
-//            printf(" ");
-//        }
-//    }
-//}
-
+static void convert_to_binary(uint8_t *binary, ssize_t nread, const char *chars, uint8_t *k) {
+    uint8_t i, j, num;
+    for (i = 0; i < (uint8_t) nread; i++) {
+        j = (*k) - 1;
+        num = (uint8_t) chars[i];
+        while (num != 0) {
+            binary[j--] = num % 2;
+            num /= 2;
+        }
+        (*k) += 8; // because the next position of second character is at index of (7+8)=15
+    }
+}
 
 
 static void addingHam(uint8_t *binary, int parity) {
@@ -113,33 +110,6 @@ static void convert_eight_to_twelve(uint8_t *testbinary, const uint8_t *binary, 
     }
 }
 
-//void addingHam_even(int location, const int *locations, uint8_t *binary, int size) {
-//    int count = 0;
-//    for (int i = 0; i < size; i++) {
-//        if (binary[locations[i] - 1] == 1) {
-//            count++;
-//        }
-//        // printf("---- %d", binary[locations[i] - 1]);
-//    }
-//    if ((count % 2) != 0) {
-//        binary[location - 1] = 1;
-//    }
-//}
-
-//void addingHam_odd(int location, const int *locations, uint8_t *binary, int size) {
-//    int count = 0;
-//
-//    for (int i = 0; i < size; i++) {
-//        if (binary[locations[i] - 1] == 1) {
-//            count++;
-//        }
-//        // printf("---- %d", binary[locations[i] - 1]);
-//    }
-//    if ((count % 2) == 0) {
-//        binary[location - 1] = 1;
-//    }
-//}
-
 static void error_reporter(const struct dc_error *err) {
     printf("\n");
     fprintf(stderr, "ERROR: %s : %s : @ %zu : %d\n", err->file_name, err->function_name, err->line_number,
@@ -157,7 +127,6 @@ int main(int argc, char *argv[]) {
     int ret_val;
 
     reporter = error_reporter;
-    tracer = trace_reporter;
     tracer = NULL;
     dc_error_init(&err, reporter);
     dc_posix_env_init(&env, tracer);
@@ -171,7 +140,6 @@ int main(int argc, char *argv[]) {
 }
 
 static struct dc_application_settings *create_settings(const struct dc_posix_env *env, struct dc_error *err) {
-    static bool default_verbose = false;
     struct application_settings *settings;
 
     DC_TRACE(env);
@@ -258,7 +226,7 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
     int ret_val;
     int bin = 0;
     char chars[BUF_SIZE];
-    uint8_t i, j, k = 8, num;
+    uint8_t i, k = 8;
     uint8_t testbinary[12];
     uint8_t byte0 = 0, byte1 = 0, byte2 = 0, byte3 = 0, byte4 = 0, byte5 = 0, byte6 = 0, byte7 = 0, byte8 = 0, byte9 = 0, byte10 = 0, byte11 = 0;
     int looop = 0;
@@ -266,7 +234,6 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
 
     app_settings = (struct application_settings *) settings;
     prefix = dc_setting_path_get(env, app_settings->prefix);
-
 
     if (prefix == NULL) {
         usage(EXIT_FAILURE);
@@ -286,53 +253,21 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
 
     printf("parity: %s\n", parity);
     printf("prefix: %s\n", prefix);
-    write_message(parity, prefix);
-
-
-//    dc_error_init(err, NULL);
-//    dc_posix_env_init((struct dc_posix_env *) &env, NULL);
-//    ret_val = EXIT_SUCCESS;
-
-    /*
-    while ((nread = dc_read(&env, &err, STDIN_FILENO, chars, BUF_SIZE)) > 0) {
-        if (dc_error_has_error(&err)) {
-            ret_val = 1;
-        }
-
-
-        for (int i = 0; i < strlen(chars); i++) {
-            chars[i] = toupper(chars[i]);
-        }
-        dc_write(&env, &err, STDOUT_FILENO, chars, (size_t) nread);
-
-        if (dc_error_has_error(&err)) {
-            ret_val = 2;
-        }
-    }
-*/
-
+    // write_message(parity, prefix);
 
     nread = (dc_read(env, err, STDIN_FILENO, chars, BUF_SIZE)) - 1;
 
     uint8_t binary[8 * nread];
+
     //filling binary array with zeros
-    for (i = 0; i < (8 * nread); i++) {
+    for (i = 0; i < (uint8_t) (8 * nread); i++) {
         binary[i] = 0;
     }
 
     //converting each char and filling the binary array
-    for (i = 0; i < nread; i++) {
-        j = k - 1;
-        num = (uint8_t) chars[i];
-        while (num != 0) {
-            binary[j--] = num % 2;
-            num /= 2;
-        }
-        k += 8; // because the next position of second character is at index of (7+8)=15
-    }
+    convert_to_binary(binary, nread, chars, &k);
 
-
-// Filling array of 12 with zeros
+    // Filling array of 12 with zeros
     for (i = 0; i < 12; i++) {
         testbinary[i] = 0;
     }
@@ -344,7 +279,7 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
         snprintf(pathname[i], len + 11, "%s%d.hamming", prefix, i);
     }
 
-    // open the files
+    // open files
     int f0 = dc_open(env, err, pathname[0], DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
     int f1 = dc_open(env, err, pathname[1], DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
     int f2 = dc_open(env, err, pathname[2], DC_O_CREAT | DC_O_WRONLY, S_IRUSR | S_IWUSR);
@@ -365,21 +300,11 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
 
     for (size_t ou = 1; ou <= (size_t) (8 * nread); ou += 8) {
 
-        //convert to 12
+        //convert 8 to 12
         convert_eight_to_twelve(testbinary, binary, &bin);
 
+        //adding hamming code
         addingHam(testbinary, hammingParity);
-//        if (strcmp(parity, "even") == 0) {
-//            addingHam_even(1, one, testbinary, 5);
-//            addingHam_even(2, tow, testbinary, 5);
-//            addingHam_even(4, four, testbinary, 4);
-//            addingHam_even(8, eight, testbinary, 4);
-//        } else {
-//            addingHam_odd(1, one, testbinary, 5);
-//            addingHam_odd(2, tow, testbinary, 5);
-//            addingHam_odd(4, four, testbinary, 4);
-//            addingHam_odd(8, eight, testbinary, 4);
-//        }
 
 
         printf("\n");
@@ -409,33 +334,6 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
             looop = 0;
         }
         looop++;
-
-        //shifting by one
-//        byte0 = (uint8_t) (byte0 << 1);
-//        byte1 = (uint8_t) (byte1 << 1);
-//        byte2 = (uint8_t) (byte2 << 1);
-//        byte3 = (uint8_t) (byte3 << 1);
-//        byte4 = (uint8_t) (byte4 << 1);
-//        byte5 = (uint8_t) (byte5 << 1);
-//        byte6 = (uint8_t) (byte6 << 1);
-//        byte7 = (uint8_t) (byte7 << 1);
-//        byte8 = (uint8_t) (byte8 << 1);
-//        byte9 = (uint8_t) (byte9 << 1);
-//        byte10 = (uint8_t) (byte10 << 1);
-//        byte11 = (uint8_t) (byte11 << 1);
-//
-//        printf("bit0: %d", (testbinary[0] >> 0) & 0x01);
-//        printf("  bit1: %d", (testbinary[1] >> 0) & 0x01);
-//        printf("  bit2: %d", (testbinary[2] >> 0) & 0x01);
-//        printf("  bit3: %d", (testbinary[3] >> 0) & 0x01);
-//        printf("  bit4: %d", (testbinary[4] >> 0) & 0x01);
-//        printf("  bit5: %d", (testbinary[5] >> 0) & 0x01);
-//        printf("  bit6: %d", (testbinary[6] >> 0) & 0x01);
-//        printf("  bit7: %d", (testbinary[7] >> 0) & 0x01);
-//        printf("  bit8: %d", (testbinary[8] >> 0) & 0x01);
-//        printf("  bit9: %d", (testbinary[9] >> 0) & 0x01);
-//        printf("  bit10: %d", (testbinary[10] >> 0) & 0x01);
-//        printf("  bit11: %d\n", (testbinary[11] >> 0) & 0x01);
 
         //shifting by one and adding the first bit
         byte0 = (uint8_t) ((byte0 << 1) | (testbinary[0] >> 0));
@@ -516,14 +414,14 @@ static int run(const struct dc_posix_env *env, struct dc_error *err, struct dc_a
     return ret_val;
 }
 
-static void write_message(const char *str, const char *file_name) {
-    //printf("writng  %s to %s\n", str, file_name);
-    printf("heloooooooooooooooooooooooooooooo %s\n", str);
-}
-
+//static void write_message(const char *str, const char *file_name) {
+//    //printf("writng  %s to %s\n", str, file_name);
+//    printf("heloooooooooooooooooooooooooooooo %s\n", str);
+//}
+//
 static void usage(int exit_code) {
     fprintf(stderr, "Usage: --parity <string> --prefix <path-to-output-prefix>");
-    exit(exit_code);
+    exit(1);
 }
 
 

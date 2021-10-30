@@ -6,11 +6,7 @@
 
 #IncludeRegexTransform: 
 
-../include/common.h
-
 /home/fadi/work/assignments/assign2_hamming_3980/src/main_to_hamming.c
-common.h
-/home/fadi/work/assignments/assign2_hamming_3980/src/common.h
 stdlib.h
 -
 stdio.h
@@ -18,8 +14,6 @@ stdio.h
 unistd.h
 -
 string.h
--
-ctype.h
 -
 math.h
 -
@@ -32,10 +26,6 @@ bits/stdint-uintn.h
 dc_application/command_line.h
 -
 dc_application/config.h
--
-dc_application/defaults.h
--
-dc_application/environment.h
 -
 dc_application/options.h
 -
