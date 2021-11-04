@@ -1,20 +1,19 @@
 /*Fadi Basheer*/
 
 #include <stdlib.h>
-#include <stdio.h>
 #include <string.h>
-#include <dc_posix/dc_fcntl.h>
-#include <dc_posix/dc_unistd.h>
-#include <bits/stdint-uintn.h>
 #include <dc_application/command_line.h>
 #include <dc_application/config.h>
 #include <dc_application/options.h>
-#include <dc_posix/dc_stdlib.h>
+#include <dc_posix/dc_fcntl.h>
 #include <dc_posix/dc_string.h>
-#include <dc_posix/dc_posix_env.h>
+#include <dc_posix/dc_unistd.h>
+#include <dc_util/dump.h>
+#include <dc_util/streams.h>
 #include <getopt.h>
+#include <sys/fcntl.h>
 
-#define BUF_SIZE 1024
+#define BUF_SIZE  6024
 
 struct application_settings {
     struct dc_opt_settings opts;

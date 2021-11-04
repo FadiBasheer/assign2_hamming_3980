@@ -32,9 +32,9 @@ cmake --build cmake-build-debug --target format
 ```
 
 
-echo "hi" | ./cmake-build-debug/src/ascii_to_hamming --parity odd --prefix program
-./cmake-build-debug/src/hamming_to_ascii --parity even --prefix program
-./cmake-build-debug/src/hamming_to_ascii 
+echo "hi" | ./cmake-build-debug/src/ascii2hamming --parity odd --prefix abc
+./cmake-build-debug/src/hamming2asii --parity odd --prefix program
+./cmake-build-debug/src/hamming2asii 
 
 xxd -b program2.hamming
 dcdump < program2.hamming

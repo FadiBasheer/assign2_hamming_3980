@@ -35,10 +35,10 @@
 /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/docs/CMakeFiles/docs.dir
 /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/CMakeFiles/rebuild_cache.dir
 /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/CMakeFiles/edit_cache.dir
-/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/CMakeFiles/hamming_to_ascii.dir
-/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/CMakeFiles/ascii_to_hamming.dir
-/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/CMakeFiles/format.dir
+/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/CMakeFiles/ascii2hamming.dir
 /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/CMakeFiles/test.dir
+/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/CMakeFiles/hamming2ascii.dir
+/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/CMakeFiles/format.dir
 /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/tests/CMakeFiles/rebuild_cache.dir
 /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/tests/CMakeFiles/test.dir
 /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/tests/CMakeFiles/edit_cache.dir

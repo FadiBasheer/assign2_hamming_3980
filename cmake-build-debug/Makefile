@@ -504,30 +504,30 @@ docs/fast:
 .PHONY : docs/fast
 
 #=============================================================================
-# Target rules for targets named hamming_to_ascii
+# Target rules for targets named ascii2hamming
 
 # Build rule for target.
-hamming_to_ascii: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 hamming_to_ascii
-.PHONY : hamming_to_ascii
+ascii2hamming: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ascii2hamming
+.PHONY : ascii2hamming
 
 # fast build rule for target.
-hamming_to_ascii/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming_to_ascii.dir/build.make src/CMakeFiles/hamming_to_ascii.dir/build
-.PHONY : hamming_to_ascii/fast
+ascii2hamming/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii2hamming.dir/build.make src/CMakeFiles/ascii2hamming.dir/build
+.PHONY : ascii2hamming/fast
 
 #=============================================================================
-# Target rules for targets named ascii_to_hamming
+# Target rules for targets named hamming2ascii
 
 # Build rule for target.
-ascii_to_hamming: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ascii_to_hamming
-.PHONY : ascii_to_hamming
+hamming2ascii: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 hamming2ascii
+.PHONY : hamming2ascii
 
 # fast build rule for target.
-ascii_to_hamming/fast:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii_to_hamming.dir/build.make src/CMakeFiles/ascii_to_hamming.dir/build
-.PHONY : ascii_to_hamming/fast
+hamming2ascii/fast:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming2ascii.dir/build.make src/CMakeFiles/hamming2ascii.dir/build
+.PHONY : hamming2ascii/fast
 
 #=============================================================================
 # Target rules for targets named format
@@ -594,8 +594,8 @@ help:
 	@echo "... NightlyUpdate"
 	@echo "... docs"
 	@echo "... format"
-	@echo "... ascii_to_hamming"
-	@echo "... hamming_to_ascii"
+	@echo "... ascii2hamming"
+	@echo "... hamming2ascii"
 	@echo "... template_test"
 .PHONY : help
 

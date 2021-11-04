@@ -87,8 +87,8 @@
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/docs/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="hamming_to_ascii">
-				<Option output="/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/hamming_to_ascii" prefix_auto="0" extension_auto="0"/>
+			<Target title="ascii2hamming">
+				<Option output="/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/ascii2hamming" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
@@ -103,14 +103,14 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 hamming_to_ascii"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 ascii2hamming"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="hamming_to_ascii/fast">
-				<Option output="/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/hamming_to_ascii" prefix_auto="0" extension_auto="0"/>
+			<Target title="ascii2hamming/fast">
+				<Option output="/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/ascii2hamming" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
@@ -125,14 +125,14 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 hamming_to_ascii/fast"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 ascii2hamming/fast"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="ascii_to_hamming">
-				<Option output="/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/ascii_to_hamming" prefix_auto="0" extension_auto="0"/>
+			<Target title="hamming2ascii">
+				<Option output="/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/hamming2ascii" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
@@ -147,14 +147,14 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 ascii_to_hamming"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 hamming2ascii"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
-			<Target title="ascii_to_hamming/fast">
-				<Option output="/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/ascii_to_hamming" prefix_auto="0" extension_auto="0"/>
+			<Target title="hamming2ascii/fast">
+				<Option output="/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/hamming2ascii" prefix_auto="0" extension_auto="0"/>
 				<Option working_dir="/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
@@ -169,7 +169,7 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 ascii_to_hamming/fast"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 hamming2ascii/fast"/>
 					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
 					<Clean command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
 					<DistClean command="/usr/bin/make -j4 -f &quot;/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/src/Makefile&quot;  VERBOSE=1 clean"/>
@@ -236,20 +236,20 @@
 			<Option target="docs"/>
 		</Unit>
 		<Unit filename="/home/fadi/work/assignments/assign2_hamming_3980/include/common.h">
-			<Option target="hamming_to_ascii"/>
-			<Option target="ascii_to_hamming"/>
+			<Option target="ascii2hamming"/>
+			<Option target="hamming2ascii"/>
 			<Option target="template_test"/>
 		</Unit>
 		<Unit filename="/home/fadi/work/assignments/assign2_hamming_3980/src/common.c">
-			<Option target="hamming_to_ascii"/>
-			<Option target="ascii_to_hamming"/>
+			<Option target="ascii2hamming"/>
+			<Option target="hamming2ascii"/>
 			<Option target="template_test"/>
 		</Unit>
 		<Unit filename="/home/fadi/work/assignments/assign2_hamming_3980/src/main_to_ascii.c">
-			<Option target="hamming_to_ascii"/>
+			<Option target="hamming2ascii"/>
 		</Unit>
 		<Unit filename="/home/fadi/work/assignments/assign2_hamming_3980/src/main_to_hamming.c">
-			<Option target="ascii_to_hamming"/>
+			<Option target="ascii2hamming"/>
 		</Unit>
 		<Unit filename="/home/fadi/work/assignments/assign2_hamming_3980/tests/main.c">
 			<Option target="template_test"/>

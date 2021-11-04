@@ -128,8 +128,8 @@ docs/clean: docs/CMakeFiles/docs.dir/clean
 # Directory level rules for directory src
 
 # Recursive "all" directory target.
-src/all: src/CMakeFiles/hamming_to_ascii.dir/all
-src/all: src/CMakeFiles/ascii_to_hamming.dir/all
+src/all: src/CMakeFiles/ascii2hamming.dir/all
+src/all: src/CMakeFiles/hamming2ascii.dir/all
 .PHONY : src/all
 
 # Recursive "preinstall" directory target.
@@ -137,8 +137,8 @@ src/preinstall:
 .PHONY : src/preinstall
 
 # Recursive "clean" directory target.
-src/clean: src/CMakeFiles/hamming_to_ascii.dir/clean
-src/clean: src/CMakeFiles/ascii_to_hamming.dir/clean
+src/clean: src/CMakeFiles/ascii2hamming.dir/clean
+src/clean: src/CMakeFiles/hamming2ascii.dir/clean
 src/clean: src/CMakeFiles/format.dir/clean
 .PHONY : src/clean
 
@@ -912,56 +912,56 @@ docs/CMakeFiles/docs.dir/clean:
 .PHONY : docs/CMakeFiles/docs.dir/clean
 
 #=============================================================================
-# Target rules for target src/CMakeFiles/hamming_to_ascii.dir
+# Target rules for target src/CMakeFiles/ascii2hamming.dir
 
 # All Build rule for target.
-src/CMakeFiles/hamming_to_ascii.dir/all:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming_to_ascii.dir/build.make src/CMakeFiles/hamming_to_ascii.dir/depend
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming_to_ascii.dir/build.make src/CMakeFiles/hamming_to_ascii.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/CMakeFiles --progress-num=5,6,7 "Built target hamming_to_ascii"
-.PHONY : src/CMakeFiles/hamming_to_ascii.dir/all
+src/CMakeFiles/ascii2hamming.dir/all:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii2hamming.dir/build.make src/CMakeFiles/ascii2hamming.dir/depend
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii2hamming.dir/build.make src/CMakeFiles/ascii2hamming.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/CMakeFiles --progress-num=1,2,3 "Built target ascii2hamming"
+.PHONY : src/CMakeFiles/ascii2hamming.dir/all
 
 # Build rule for subdir invocation for target.
-src/CMakeFiles/hamming_to_ascii.dir/rule: cmake_check_build_system
+src/CMakeFiles/ascii2hamming.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/CMakeFiles 3
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/hamming_to_ascii.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/ascii2hamming.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/CMakeFiles 0
-.PHONY : src/CMakeFiles/hamming_to_ascii.dir/rule
+.PHONY : src/CMakeFiles/ascii2hamming.dir/rule
 
 # Convenience name for target.
-hamming_to_ascii: src/CMakeFiles/hamming_to_ascii.dir/rule
-.PHONY : hamming_to_ascii
+ascii2hamming: src/CMakeFiles/ascii2hamming.dir/rule
+.PHONY : ascii2hamming
 
 # clean rule for target.
-src/CMakeFiles/hamming_to_ascii.dir/clean:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming_to_ascii.dir/build.make src/CMakeFiles/hamming_to_ascii.dir/clean
-.PHONY : src/CMakeFiles/hamming_to_ascii.dir/clean
+src/CMakeFiles/ascii2hamming.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii2hamming.dir/build.make src/CMakeFiles/ascii2hamming.dir/clean
+.PHONY : src/CMakeFiles/ascii2hamming.dir/clean
 
 #=============================================================================
-# Target rules for target src/CMakeFiles/ascii_to_hamming.dir
+# Target rules for target src/CMakeFiles/hamming2ascii.dir
 
 # All Build rule for target.
-src/CMakeFiles/ascii_to_hamming.dir/all:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii_to_hamming.dir/build.make src/CMakeFiles/ascii_to_hamming.dir/depend
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii_to_hamming.dir/build.make src/CMakeFiles/ascii_to_hamming.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/CMakeFiles --progress-num=1,2,3 "Built target ascii_to_hamming"
-.PHONY : src/CMakeFiles/ascii_to_hamming.dir/all
+src/CMakeFiles/hamming2ascii.dir/all:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming2ascii.dir/build.make src/CMakeFiles/hamming2ascii.dir/depend
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming2ascii.dir/build.make src/CMakeFiles/hamming2ascii.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/CMakeFiles --progress-num=5,6,7 "Built target hamming2ascii"
+.PHONY : src/CMakeFiles/hamming2ascii.dir/all
 
 # Build rule for subdir invocation for target.
-src/CMakeFiles/ascii_to_hamming.dir/rule: cmake_check_build_system
+src/CMakeFiles/hamming2ascii.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/CMakeFiles 3
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/ascii_to_hamming.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/hamming2ascii.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug/CMakeFiles 0
-.PHONY : src/CMakeFiles/ascii_to_hamming.dir/rule
+.PHONY : src/CMakeFiles/hamming2ascii.dir/rule
 
 # Convenience name for target.
-ascii_to_hamming: src/CMakeFiles/ascii_to_hamming.dir/rule
-.PHONY : ascii_to_hamming
+hamming2ascii: src/CMakeFiles/hamming2ascii.dir/rule
+.PHONY : hamming2ascii
 
 # clean rule for target.
-src/CMakeFiles/ascii_to_hamming.dir/clean:
-	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii_to_hamming.dir/build.make src/CMakeFiles/ascii_to_hamming.dir/clean
-.PHONY : src/CMakeFiles/ascii_to_hamming.dir/clean
+src/CMakeFiles/hamming2ascii.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming2ascii.dir/build.make src/CMakeFiles/hamming2ascii.dir/clean
+.PHONY : src/CMakeFiles/hamming2ascii.dir/clean
 
 #=============================================================================
 # Target rules for target src/CMakeFiles/format.dir

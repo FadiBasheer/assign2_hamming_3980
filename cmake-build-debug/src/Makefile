@@ -127,32 +127,32 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-src/CMakeFiles/hamming_to_ascii.dir/rule:
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/hamming_to_ascii.dir/rule
-.PHONY : src/CMakeFiles/hamming_to_ascii.dir/rule
+src/CMakeFiles/ascii2hamming.dir/rule:
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/ascii2hamming.dir/rule
+.PHONY : src/CMakeFiles/ascii2hamming.dir/rule
 
 # Convenience name for target.
-hamming_to_ascii: src/CMakeFiles/hamming_to_ascii.dir/rule
-.PHONY : hamming_to_ascii
+ascii2hamming: src/CMakeFiles/ascii2hamming.dir/rule
+.PHONY : ascii2hamming
 
 # fast build rule for target.
-hamming_to_ascii/fast:
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming_to_ascii.dir/build.make src/CMakeFiles/hamming_to_ascii.dir/build
-.PHONY : hamming_to_ascii/fast
+ascii2hamming/fast:
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii2hamming.dir/build.make src/CMakeFiles/ascii2hamming.dir/build
+.PHONY : ascii2hamming/fast
 
 # Convenience name for target.
-src/CMakeFiles/ascii_to_hamming.dir/rule:
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/ascii_to_hamming.dir/rule
-.PHONY : src/CMakeFiles/ascii_to_hamming.dir/rule
+src/CMakeFiles/hamming2ascii.dir/rule:
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/hamming2ascii.dir/rule
+.PHONY : src/CMakeFiles/hamming2ascii.dir/rule
 
 # Convenience name for target.
-ascii_to_hamming: src/CMakeFiles/ascii_to_hamming.dir/rule
-.PHONY : ascii_to_hamming
+hamming2ascii: src/CMakeFiles/hamming2ascii.dir/rule
+.PHONY : hamming2ascii
 
 # fast build rule for target.
-ascii_to_hamming/fast:
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii_to_hamming.dir/build.make src/CMakeFiles/ascii_to_hamming.dir/build
-.PHONY : ascii_to_hamming/fast
+hamming2ascii/fast:
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming2ascii.dir/build.make src/CMakeFiles/hamming2ascii.dir/build
+.PHONY : hamming2ascii/fast
 
 # Convenience name for target.
 src/CMakeFiles/format.dir/rule:
@@ -173,8 +173,8 @@ common.o: common.c.o
 
 # target to build an object file
 common.c.o:
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming_to_ascii.dir/build.make src/CMakeFiles/hamming_to_ascii.dir/common.c.o
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii_to_hamming.dir/build.make src/CMakeFiles/ascii_to_hamming.dir/common.c.o
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii2hamming.dir/build.make src/CMakeFiles/ascii2hamming.dir/common.c.o
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming2ascii.dir/build.make src/CMakeFiles/hamming2ascii.dir/common.c.o
 .PHONY : common.c.o
 
 common.i: common.c.i
@@ -182,8 +182,8 @@ common.i: common.c.i
 
 # target to preprocess a source file
 common.c.i:
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming_to_ascii.dir/build.make src/CMakeFiles/hamming_to_ascii.dir/common.c.i
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii_to_hamming.dir/build.make src/CMakeFiles/ascii_to_hamming.dir/common.c.i
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii2hamming.dir/build.make src/CMakeFiles/ascii2hamming.dir/common.c.i
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming2ascii.dir/build.make src/CMakeFiles/hamming2ascii.dir/common.c.i
 .PHONY : common.c.i
 
 common.s: common.c.s
@@ -191,8 +191,8 @@ common.s: common.c.s
 
 # target to generate assembly for a file
 common.c.s:
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming_to_ascii.dir/build.make src/CMakeFiles/hamming_to_ascii.dir/common.c.s
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii_to_hamming.dir/build.make src/CMakeFiles/ascii_to_hamming.dir/common.c.s
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii2hamming.dir/build.make src/CMakeFiles/ascii2hamming.dir/common.c.s
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming2ascii.dir/build.make src/CMakeFiles/hamming2ascii.dir/common.c.s
 .PHONY : common.c.s
 
 main_to_ascii.o: main_to_ascii.c.o
@@ -200,7 +200,7 @@ main_to_ascii.o: main_to_ascii.c.o
 
 # target to build an object file
 main_to_ascii.c.o:
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming_to_ascii.dir/build.make src/CMakeFiles/hamming_to_ascii.dir/main_to_ascii.c.o
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming2ascii.dir/build.make src/CMakeFiles/hamming2ascii.dir/main_to_ascii.c.o
 .PHONY : main_to_ascii.c.o
 
 main_to_ascii.i: main_to_ascii.c.i
@@ -208,7 +208,7 @@ main_to_ascii.i: main_to_ascii.c.i
 
 # target to preprocess a source file
 main_to_ascii.c.i:
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming_to_ascii.dir/build.make src/CMakeFiles/hamming_to_ascii.dir/main_to_ascii.c.i
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming2ascii.dir/build.make src/CMakeFiles/hamming2ascii.dir/main_to_ascii.c.i
 .PHONY : main_to_ascii.c.i
 
 main_to_ascii.s: main_to_ascii.c.s
@@ -216,7 +216,7 @@ main_to_ascii.s: main_to_ascii.c.s
 
 # target to generate assembly for a file
 main_to_ascii.c.s:
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming_to_ascii.dir/build.make src/CMakeFiles/hamming_to_ascii.dir/main_to_ascii.c.s
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/hamming2ascii.dir/build.make src/CMakeFiles/hamming2ascii.dir/main_to_ascii.c.s
 .PHONY : main_to_ascii.c.s
 
 main_to_hamming.o: main_to_hamming.c.o
@@ -224,7 +224,7 @@ main_to_hamming.o: main_to_hamming.c.o
 
 # target to build an object file
 main_to_hamming.c.o:
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii_to_hamming.dir/build.make src/CMakeFiles/ascii_to_hamming.dir/main_to_hamming.c.o
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii2hamming.dir/build.make src/CMakeFiles/ascii2hamming.dir/main_to_hamming.c.o
 .PHONY : main_to_hamming.c.o
 
 main_to_hamming.i: main_to_hamming.c.i
@@ -232,7 +232,7 @@ main_to_hamming.i: main_to_hamming.c.i
 
 # target to preprocess a source file
 main_to_hamming.c.i:
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii_to_hamming.dir/build.make src/CMakeFiles/ascii_to_hamming.dir/main_to_hamming.c.i
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii2hamming.dir/build.make src/CMakeFiles/ascii2hamming.dir/main_to_hamming.c.i
 .PHONY : main_to_hamming.c.i
 
 main_to_hamming.s: main_to_hamming.c.s
@@ -240,7 +240,7 @@ main_to_hamming.s: main_to_hamming.c.s
 
 # target to generate assembly for a file
 main_to_hamming.c.s:
-	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii_to_hamming.dir/build.make src/CMakeFiles/ascii_to_hamming.dir/main_to_hamming.c.s
+	cd /home/fadi/work/assignments/assign2_hamming_3980/cmake-build-debug && $(MAKE) $(MAKESILENT) -f src/CMakeFiles/ascii2hamming.dir/build.make src/CMakeFiles/ascii2hamming.dir/main_to_hamming.c.s
 .PHONY : main_to_hamming.c.s
 
 # Help Target
@@ -253,8 +253,8 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... format"
-	@echo "... ascii_to_hamming"
-	@echo "... hamming_to_ascii"
+	@echo "... ascii2hamming"
+	@echo "... hamming2ascii"
 	@echo "... common.o"
 	@echo "... common.i"
 	@echo "... common.s"
